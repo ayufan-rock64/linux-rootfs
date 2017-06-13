@@ -5,7 +5,7 @@ properties([
     text(defaultValue: '', description: 'A list of changes', name: 'CHANGES'),
     booleanParam(defaultValue: false, description: 'If build should be marked as pre-release', name: 'PRERELEASE'),
     string(defaultValue: 'ayufan-rock64', description: 'GitHub username or organization', name: 'GITHUB_USER'),
-    string(defaultValue: 'linux-build', description: 'GitHub repository', name: 'GITHUB_REPO'),
+    string(defaultValue: 'linux-rootfs', description: 'GitHub repository', name: 'GITHUB_REPO'),
   ])
 ])
 */
@@ -16,7 +16,7 @@ node('docker && linux-build') {
       stage "Environment"
       checkout scm
 
-      def environment = docker.build('build-environment:build-rock64-image', 'environment')
+      def environment = docker.build('build-environment:build-rock64-rootfs-image', 'environment')
 
       environment.inside("--privileged -u 0:0") {
         withEnv([
@@ -24,45 +24,10 @@ node('docker && linux-build') {
           "RELEASE_NAME=$VERSION",
           "RELEASE=$BUILD_NUMBER"
         ]) {
-            stage 'Prepare'
-            sh '''#!/bin/bash
-              set +xe
-              export CCACHE_DIR=$WORKSPACE/ccache
-              ccache -M 0 -F 0
-              git clean -ffdx -e ccache
-            '''
-
-            stage 'Sources'
-            sh '''#!/bin/bash
-              set -xe
-
-              export HOME=$WORKSPACE
-              export USER=jenkins
-
-              repo init -u https://github.com/ayufan-rock64/manifests -b default --depth=1
-
-              repo sync -j 20 -c --force-sync
-            '''
-
-            stage 'U-boot'
-            sh '''#!/bin/bash
-              set +xe
-              export CCACHE_DIR=$WORKSPACE/ccache
-              make u-boot
-            '''
-
-            stage 'Kernel'
-            sh '''#!/bin/bash
-              set +xe
-              export CCACHE_DIR=$WORKSPACE/ccache
-              make kernel
-            '''
-
             stage 'Images'
             sh '''#!/bin/bash
               set +xe
-              export CCACHE_DIR=$WORKSPACE/ccache
-              make -j4 BUILD_ARCH=armhf
+              make -j4
             '''
         }
   
@@ -73,18 +38,6 @@ node('docker && linux-build') {
           "GITHUB_USER=$GITHUB_USER",
           "GITHUB_REPO=$GITHUB_REPO"
         ]) {
-          stage 'Freeze'
-          sh '''#!/bin/bash
-            # use -ve, otherwise we could leak GITHUB_TOKEN...
-            set -ve
-            shopt -s nullglob
-
-            export HOME=$WORKSPACE
-            export USER=jenkins
-
-            repo manifest -r -o manifest.xml
-          '''
-
           stage 'Release'
           sh '''#!/bin/bash
             set -xe
@@ -96,12 +49,7 @@ node('docker && linux-build') {
                 --description "${CHANGES}\n\n${BUILD_URL}" \
                 --draft
 
-            github-release upload \
-                --tag "${VERSION}" \
-                --name "manifest.xml" \
-                --file "manifest.xml"
-
-            for file in *.xz *.deb; do
+            for file in *.xz; do
               github-release upload \
                   --tag "${VERSION}" \
                   --name "$(basename "$file")" \

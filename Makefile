@@ -1,29 +1,5 @@
-export RELEASE_NAME ?= 0.1~dev
-export RELEASE ?= 1
-export BOOT_TOOLS_BRANCH ?= master
-export BUILD_ARCH ?= armhf
-
-all: linux-rock64
-
-package/rtk_bt/rtk_hciattach/rtk_hciattach:
-	make -C package/rtk_bt/rtk_hciattach CC="ccache aarch64-linux-gnu-gcc"
-
-linux-rock64-package-$(RELEASE_NAME).deb: package package/rtk_bt/rtk_hciattach/rtk_hciattach
-	fpm -s dir -t deb -n linux-rock64-package -v $(RELEASE_NAME) \
-		-p $@ \
-		--deb-priority optional --category admin \
-		--force \
-		--deb-compression bzip2 \
-		--after-install package/scripts/postinst.deb \
-		--before-remove package/scripts/prerm.deb \
-		--url https://gitlab.com/ayufan-rock64/linux-build \
-		--description "GitLab Runner" \
-		-m "Kamil Trzciński <ayufan@ayufan.eu>" \
-		--license "MIT" \
-		--vendor "Kamil Trzciński" \
-		-a all \
-		package/root/=/ \
-		package/rtk_bt/rtk_hciattach/rtk_hciattach=/usr/local/sbin/rtk_hciattach
+all: xenial-i3-arm64.tar.xz xenial-mate-arm64.tar.xz xenial-minimal-arm64.tar.xz \
+	xenial-i3-armhf.tar.xz xenial-mate-armhf.tar.xz xenial-minimal-armhf.tar.xz
 
 %.tar.xz: %.tar
 	pxz -f -3 $<
@@ -31,102 +7,11 @@ linux-rock64-package-$(RELEASE_NAME).deb: package package/rtk_bt/rtk_hciattach/r
 %.img.xz: %.img
 	pxz -f -3 $<
 
-xenial-minimal-rock64-$(RELEASE_NAME)-$(RELEASE)-$(BUILD_ARCH)-system.img: linux-rock64-package-$(RELEASE_NAME).deb
-	sudo bash export ./build-system-image.sh \
-		$(shell readlink -f $@) \
-		$(shell readlink -f $<) \
-		"" \
-		$(shell readlink -f linux-rock64-package-$(RELEASE_NAME).deb) \
-		xenial \
-		rock64 \
-		minimal \
-		"" \
-		"${BUILD_ARCH}"
+%.tar:
+	bash build.sh "$@" "$(shell basename "$@" -$(BUILD_ARCH).tar)" "$(BUILD_MODE)" "$(BUILD_SUITE)" "$(BUILD_ARCH)"
 
-xenial-minimal-rock64-$(RELEASE_NAME)-$(RELEASE)-$(BUILD_ARCH)-system.img: linux-rock64-package-$(RELEASE_NAME).deb
-	cd rootfs/ && sudo bash ./build-system-image.sh \
-		$(shell readlink -f $@) \
-		"" \
-		"" \
-		$(shell readlink -f linux-rock64-package-$(RELEASE_NAME).deb) \
-		xenial \
-		rock64 \
-		minimal \
-		"" \
-		"${BUILD_ARCH}"
+%-armhf.tar: BUILD_ARCH=arm64
+%-arm64.tar: BUILD_ARCH=arm64
 
-xenial-mate-rock64-$(RELEASE_NAME)-$(RELEASE)-$(BUILD_ARCH)-system.img: linux-rock64-package-$(RELEASE_NAME).deb
-	cd rootfs/ && sudo bash ./build-system-image.sh \
-		$(shell readlink -f $@) \
-		"" \
-		"" \
-		$(shell readlink -f linux-rock64-package-$(RELEASE_NAME).deb) \
-		xenial \
-		rock64 \
-		mate \
-		7300 \
-		"${BUILD_ARCH}"
-
-xenial-i3-rock64-$(RELEASE_NAME)-$(RELEASE)-$(BUILD_ARCH)-system.img: linux-rock64-package-$(RELEASE_NAME).deb
-	cd rootfs/ && sudo bash ./build-system-image.sh \
-		$(shell readlink -f $@) \
-		"" \
-		"" \
-		$(shell readlink -f linux-rock64-package-$(RELEASE_NAME).deb) \
-		xenial \
-		rock64 \
-		i3 \
-		"" \
-		"${BUILD_ARCH}"
-
-stretch-i3-rock64-$(RELEASE_NAME)-$(RELEASE)-$(BUILD_ARCH)-system.img: linux-rock64-package-$(RELEASE_NAME).deb
-	cd rootfs/ && sudo export BUILD_ARCH=$(BUILD_ARCH) bash rootfs/build-system-image.sh \
-		$(shell readlink -f $@) \
-		"" \
-		"" \
-		$(shell readlink -f linux-rock64-package-$(RELEASE_NAME).deb) \
-		stretch \
-		rock64 \
-		i3 \
-		"" \
-		"${BUILD_ARCH}"
-
-out/kernel/Image out/kernel/rk3328-rock64.dtb: kernel/arch/arm64/configs/rockchip_linux_defconfig
-	build/mk-kernel.sh rk3328-rock64
-
-out/boot.img: out/kernel/Image out/kernel/rk3328-rock64.dtb
-	build/mk-image.sh -c rk3328 -t boot
-
-out/u-boot/uboot.img: u-boot/configs/rock64-rk3328_defconfig
-	build/mk-uboot.sh rk3328-rock64
-
-%.img: %-system.img
-	build/mk-image.sh -c rk3328 -t system -r "$<" -o "$@.tmp"
-	mv "$@.tmp" "$@"
-
-.PHONY: kernel
-kernel: out/boot.img
-
-.PHONY: u-boot
-u-boot: out/u-boot/uboot.img
-
-.PHONY: linux-package
-linux-package: linux-rock64-package-$(RELEASE_NAME).deb
-
-.PHONY: xenial-minimal-rock64
-xenial-minimal-rock64: xenial-minimal-rock64-$(RELEASE_NAME)-$(RELEASE)-$(BUILD_ARCH).img.xz
-
-.PHONY: xenial-mate-rock64
-xenial-mate-rock64: xenial-mate-rock64-$(RELEASE_NAME)-$(RELEASE)-$(BUILD_ARCH).img.xz
-
-.PHONY: xenial-i3-rock64
-xenial-i3-rock64: xenial-i3-rock64-$(RELEASE_NAME)-$(RELEASE)-$(BUILD_ARCH).img.xz
-
-.PHONY: stretch-i3-rock64
-stretch-i3-rock64: stretch-i3-rock64-$(RELEASE_NAME)-$(RELEASE)-$(BUILD_ARCH).img.xz
-
-.PHONY: xenial-rock64
-xenial-rock64: xenial-minimal-rock64 xenial-mate-rock64 xenial-i3-rock64
-
-.PHONY: linux-rock64
-linux-rock64: xenial-rock64
+xenial-%.tar: BUILD_SUITE=xenial
+xenial-%.tar: BUILD_MODE=ubuntu

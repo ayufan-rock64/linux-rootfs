@@ -1,0 +1,15 @@
+dosfstools
+curl
+xz-utils
+iw
+rfkill
+wpasupplicant
+openssh-server
+alsa-utils
+nano
+git
+build-essential
+vim
+jq
+ethtool
+zram-config
