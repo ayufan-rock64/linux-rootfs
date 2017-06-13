@@ -21,7 +21,7 @@ mkdir -p out/
 
 TEMP=$(mktemp -d out/build.XXXXX)
 cleanup() {
-	rm -rf "$TEMP"
+	sudo rm -rf "$TEMP"
 }
 trap cleanup EXIT
 
@@ -55,6 +55,7 @@ lb config \
 cp -av $ROOT_DIR/configs/$BUILD_MODE/. config/
 cp -av $ROOT_DIR/configs/$BUILD_VARIANT/. config/
 
-lb build
+sudo lb build
+sudo chmod "$(id -u)" binary-tar.tar.xz
 
 mv binary-tar.tar.xz "$OUTPUT"
