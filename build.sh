@@ -15,11 +15,11 @@ BUILD_OUTPUT="$(readlink -f "$1")"
 
 ROOT_DIR="$(pwd)"
 
-set -e
+set -ex
 
 mkdir -p out/
 
-TEMP=$(mktemp -d out/build.XXXXX)
+TEMP=$(mktemp -d $(readlink -f out)/build.XXXXX)
 cleanup() {
 	sudo rm -rf "$TEMP"
 }
@@ -30,6 +30,8 @@ pushd $TEMP
 QEMU_BUILD_ARCH=$BUILD_ARCH
 if [[ "$QEMU_BUILD_ARCH" == "arm64" ]]; then
     QEMU_BUILD_ARCH=aarch64
+elif [[ "$QEMU_BUILD_ARCH" == "armhf" ]]; then
+    QEMU_BUILD_ARCH=arm
 fi
 
 lb config \
@@ -58,4 +60,4 @@ cp -av $ROOT_DIR/configs/$BUILD_VARIANT/. config/
 sudo lb build
 sudo chmod "$(id -u)" binary-tar.tar.xz
 
-mv binary-tar.tar.xz "$OUTPUT"
+mv binary-tar.tar.xz "$BUILD_OUTPUT"
