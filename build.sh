@@ -58,6 +58,6 @@ cp -av $ROOT_DIR/configs/$BUILD_MODE/. config/
 cp -av $ROOT_DIR/configs/$BUILD_VARIANT/. config/
 
 sudo lb build
-sudo chmod "$(id -u)" binary-tar.tar.xz
+sudo chown "$(id -u)" binary-tar.tar.xz
 
 mv binary-tar.tar.xz "$BUILD_OUTPUT"
