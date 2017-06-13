@@ -10,7 +10,7 @@ all: xenial-i3-arm64.tar.xz xenial-mate-arm64.tar.xz xenial-minimal-arm64.tar.xz
 %.tar:
 	bash build.sh "$@" "$(shell basename "$@" -$(BUILD_ARCH).tar)" "$(BUILD_MODE)" "$(BUILD_SUITE)" "$(BUILD_ARCH)"
 
-%-armhf.tar: BUILD_ARCH=arm64
+%-armhf.tar: BUILD_ARCH=armhf
 %-arm64.tar: BUILD_ARCH=arm64
 
 xenial-%.tar: BUILD_SUITE=xenial
