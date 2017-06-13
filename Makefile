@@ -1,11 +1,11 @@
 export RELEASE_NAME ?= 0.1~dev
 
 all: \
-	xenial-i3-$(RELEASE_NAME)-arm64.tar.xz \
-	xenial-mate-$(RELEASE_NAME)-arm64.tar.xz \
-	xenial-minimal-$(RELEASE_NAME)-arm64.tar.xz \
-	xenial-i3-$(RELEASE_NAME)-armhf.tar.xz \
 	xenial-mate-$(RELEASE_NAME)-armhf.tar.xz \
+	xenial-mate-$(RELEASE_NAME)-arm64.tar.xz \
+	xenial-i3-$(RELEASE_NAME)-arm64.tar.xz \
+	xenial-i3-$(RELEASE_NAME)-armhf.tar.xz \
+	xenial-minimal-$(RELEASE_NAME)-arm64.tar.xz \
 	xenial-minimal-$(RELEASE_NAME)-armhf.tar.xz
 
 %.tar.xz: %.tar
