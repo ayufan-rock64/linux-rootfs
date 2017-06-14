@@ -13,3 +13,4 @@ vim
 jq
 ethtool
 zram-config
+wget
