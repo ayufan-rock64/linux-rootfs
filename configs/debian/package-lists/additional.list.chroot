@@ -12,7 +12,6 @@ build-essential
 vim
 jq
 ethtool
-zram-config
 wget
 ca-certificates
 software-properties-common
