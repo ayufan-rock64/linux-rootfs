@@ -13,6 +13,8 @@ all: \
 	ubuntu-xenial-minimal-$(RELEASE_NAME)-armhf.tar.xz \
 	ubuntu-zesty-minimal-$(RELEASE_NAME)-arm64.tar.xz \
 	ubuntu-zesty-minimal-$(RELEASE_NAME)-armhf.tar.xz \
+	debian-jessie-minimal-$(RELEASE_NAME)-arm64.tar.xz \
+	debian-jessie-minimal-$(RELEASE_NAME)-armhf.tar.xz \
 	debian-stretch-minimal-$(RELEASE_NAME)-arm64.tar.xz \
 	debian-stretch-minimal-$(RELEASE_NAME)-armhf.tar.xz \
 
@@ -34,4 +36,5 @@ ubuntu-xenial-%.tar.xz: BUILD_SUITE=xenial
 ubuntu-zesty-%.tar.xz: BUILD_SUITE=zesty
 
 debian-%.tar.xz: BUILD_MODE=debian
+debian-jessie-%.tar.xz: BUILD_SUITE=jessie
 debian-stretch-%.tar.xz: BUILD_SUITE=stretch
