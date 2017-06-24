@@ -1,2 +1,4 @@
 /out/
 /tmp/
+/*.tar
+/*.tar.xz

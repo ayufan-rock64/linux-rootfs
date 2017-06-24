@@ -18,3 +18,4 @@ ssh
 avahi-daemon
 ntp
 wireless-tools
+apt-transport-https
