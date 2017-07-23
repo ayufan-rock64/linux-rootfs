@@ -5,14 +5,20 @@ all: \
 	ubuntu-xenial-mate-$(RELEASE_NAME)-arm64.tar.xz \
 	ubuntu-zesty-mate-$(RELEASE_NAME)-armhf.tar.xz \
 	ubuntu-zesty-mate-$(RELEASE_NAME)-arm64.tar.xz \
+	ubuntu-artful-mate-$(RELEASE_NAME)-armhf.tar.xz \
+	ubuntu-artful-mate-$(RELEASE_NAME)-arm64.tar.xz \
 	ubuntu-xenial-i3-$(RELEASE_NAME)-arm64.tar.xz \
 	ubuntu-xenial-i3-$(RELEASE_NAME)-armhf.tar.xz \
 	ubuntu-zesty-i3-$(RELEASE_NAME)-arm64.tar.xz \
 	ubuntu-zesty-i3-$(RELEASE_NAME)-armhf.tar.xz \
+	ubuntu-artful-i3-$(RELEASE_NAME)-arm64.tar.xz \
+	ubuntu-artful-i3-$(RELEASE_NAME)-armhf.tar.xz \
 	ubuntu-xenial-minimal-$(RELEASE_NAME)-arm64.tar.xz \
 	ubuntu-xenial-minimal-$(RELEASE_NAME)-armhf.tar.xz \
 	ubuntu-zesty-minimal-$(RELEASE_NAME)-arm64.tar.xz \
 	ubuntu-zesty-minimal-$(RELEASE_NAME)-armhf.tar.xz \
+	ubuntu-artful-minimal-$(RELEASE_NAME)-arm64.tar.xz \
+	ubuntu-artful-minimal-$(RELEASE_NAME)-armhf.tar.xz \
 	debian-jessie-minimal-$(RELEASE_NAME)-arm64.tar.xz \
 	debian-jessie-minimal-$(RELEASE_NAME)-armhf.tar.xz \
 	debian-jessie-openmediavault-$(RELEASE_NAME)-arm64.tar.xz \
@@ -36,6 +42,7 @@ all: \
 ubuntu-%.tar.xz: BUILD_MODE=ubuntu
 ubuntu-xenial-%.tar.xz: BUILD_SUITE=xenial
 ubuntu-zesty-%.tar.xz: BUILD_SUITE=zesty
+ubuntu-artful-%.tar.xz: BUILD_SUITE=artful
 
 debian-%.tar.xz: BUILD_MODE=debian
 debian-jessie-%.tar.xz: BUILD_SUITE=jessie
