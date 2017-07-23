@@ -15,6 +15,9 @@ apt-get --yes --force-yes --allow-unauthenticated  --fix-missing --no-install-re
 cp -p /usr/bin/newaliases /usr/bin/newaliases.bak
 ln -sf /bin/true /usr/bin/newaliases
 
+# prevent mdadm to leak partitions into rootfs
+mount --bind /dev/null /proc/mdstat
+
 # install openmediavault
 apt-get update -y
 apt-get --force-yes -y install openmediavault
@@ -24,5 +27,6 @@ wget http://omv-extras.org/openmediavault-omvextrasorg_latest_all3.deb
 dpkg -i openmediavault-omvextrasorg_latest_all3.deb
 rm openmediavault-omvextrasorg_latest_all3.deb
 
-# bring back aliases
+# remove hacks
 mv /usr/bin/newaliases.bak /usr/bin/newaliases
+umount /proc/mdstat
