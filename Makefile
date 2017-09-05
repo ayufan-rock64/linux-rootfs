@@ -11,8 +11,6 @@ all: \
 	ubuntu-xenial-i3-$(RELEASE_NAME)-armhf.tar.xz \
 	ubuntu-zesty-i3-$(RELEASE_NAME)-arm64.tar.xz \
 	ubuntu-zesty-i3-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-artful-i3-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-artful-i3-$(RELEASE_NAME)-armhf.tar.xz \
 	ubuntu-xenial-minimal-$(RELEASE_NAME)-arm64.tar.xz \
 	ubuntu-xenial-minimal-$(RELEASE_NAME)-armhf.tar.xz \
 	ubuntu-zesty-minimal-$(RELEASE_NAME)-arm64.tar.xz \
