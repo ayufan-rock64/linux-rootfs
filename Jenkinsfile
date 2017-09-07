@@ -27,7 +27,7 @@ node('docker && linux-build') {
             stage 'Images'
             sh '''#!/bin/bash
               set +xe
-              make -j$(($(nproc)+1))
+              make -j$(nproc)
             '''
         }
   
