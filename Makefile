@@ -23,8 +23,6 @@ all: \
 	debian-jessie-openmediavault-$(RELEASE_NAME)-armhf.tar.xz \
 	debian-stretch-minimal-$(RELEASE_NAME)-arm64.tar.xz \
 	debian-stretch-minimal-$(RELEASE_NAME)-armhf.tar.xz \
-	debian-stretch-openmediavault-$(RELEASE_NAME)-arm64.tar.xz \
-	debian-stretch-openmediavault-$(RELEASE_NAME)-armhf.tar.xz \
 
 %.xz: %
 	pxz -f -3 $<

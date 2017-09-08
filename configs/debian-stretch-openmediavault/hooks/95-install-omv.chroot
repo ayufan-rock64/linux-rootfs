@@ -6,6 +6,8 @@ set -xe
 
 debconf-apt-progress -- apt-get update
 
+/bin/bash
+
 # install postfix and fix newaliases bug (see Ubuntu bug 1531299)
 debconf-set-selections <<< "postfix postfix/mailname string openmediavault"
 debconf-set-selections <<< "postfix postfix/main_mailer_type string 'No configuration'"
