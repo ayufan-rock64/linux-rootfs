@@ -1,0 +1,10 @@
+xserver-xorg-input-all
+xfonts-base
+slim
+rxvt-unicode-lite
+i3
+i3status
+i3lock
+suckless-tools
+network-manager
+pulseaudio
