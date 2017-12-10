@@ -50,3 +50,17 @@ ubuntu-bionic-%.tar.xz: BUILD_SUITE=bionic
 debian-%.tar.xz: BUILD_MODE=debian
 debian-jessie-%.tar.xz: BUILD_SUITE=jessie
 debian-stretch-%.tar.xz: BUILD_SUITE=stretch
+
+.PHONY: shell		# run docker shell to build image
+shell:
+	@echo Building environment...
+	@docker build -q -t rock64-rootfs:build-environment environment/
+	@echo Entering shell...
+	@docker run --rm \
+		-it \
+		-e HOME -v $(HOME):$(HOME) \
+		--privileged \
+		-h rock64-build-env \
+		-v $(CURDIR):$(CURDIR) \
+		-w $(CURDIR) \
+		rock64-rootfs:build-environment
