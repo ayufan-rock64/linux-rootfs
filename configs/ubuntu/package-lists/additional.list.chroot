@@ -19,3 +19,4 @@ software-properties-common
 sudo
 htop
 ifupdown
+bash
