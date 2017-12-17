@@ -1,32 +1,13 @@
 export RELEASE_NAME ?= 0.1~dev
 
+VARIANTS := $(patsubst configs/%,%,$(wildcard configs/*-*-*))
+
 all: \
-	ubuntu-xenial-mate-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-xenial-mate-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-zesty-mate-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-zesty-mate-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-artful-mate-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-artful-mate-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-bionic-mate-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-bionic-mate-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-xenial-i3-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-xenial-i3-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-zesty-i3-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-zesty-i3-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-xenial-minimal-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-xenial-minimal-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-zesty-minimal-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-zesty-minimal-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-artful-minimal-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-artful-minimal-$(RELEASE_NAME)-armhf.tar.xz \
-	ubuntu-bionic-minimal-$(RELEASE_NAME)-arm64.tar.xz \
-	ubuntu-bionic-minimal-$(RELEASE_NAME)-armhf.tar.xz \
-	debian-jessie-minimal-$(RELEASE_NAME)-arm64.tar.xz \
-	debian-jessie-minimal-$(RELEASE_NAME)-armhf.tar.xz \
-	debian-jessie-openmediavault-$(RELEASE_NAME)-arm64.tar.xz \
-	debian-jessie-openmediavault-$(RELEASE_NAME)-armhf.tar.xz \
-	debian-stretch-minimal-$(RELEASE_NAME)-arm64.tar.xz \
-	debian-stretch-minimal-$(RELEASE_NAME)-armhf.tar.xz \
+	$(patsubst %,%-$(RELEASE_NAME)-armhf.tar.xz,$(VARIANTS)) \
+	$(patsubst %,%-$(RELEASE_NAME)-arm64.tar.xz,$(VARIANTS))
+
+info:
+	@echo $(VARIANTS)
 
 %.xz: %
 	pxz -f -3 $<
@@ -40,6 +21,9 @@ all: \
 
 %-armhf.tar.xz: BUILD_ARCH=armhf
 %-arm64.tar.xz: BUILD_ARCH=arm64
+
+$(addsuffix -armhf, $(VARIANTS)): %-armhf: %-$(RELEASE_NAME)-armhf.tar.xz
+$(addsuffix -arm64, $(VARIANTS)): %-arm64: %-$(RELEASE_NAME)-arm64.tar.xz
 
 ubuntu-%.tar.xz: BUILD_MODE=ubuntu
 ubuntu-xenial-%.tar.xz: BUILD_SUITE=xenial
