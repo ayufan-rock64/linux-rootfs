@@ -50,6 +50,18 @@ else
     exit 1
 fi
 
+LB_CONFIG=""
+
+MINIMAL_BUILD_VARIANT="$BUILD_MODE-$BUILD_SUITE-minimal"
+
+if [[ "$MINIMAL_BUILD_VARIANT" != "$BUILD_VARIANT" ]]; then
+    if [[ -e "$ROOT_DIR/$BUILD_MODE-$BUILD_SUITE-minimal-$RELEASE_NAME-$BUILD_ARCH.tar.xz" ]]; then
+        sudo tar xJf "$ROOT_DIR/$BUILD_MODE-$BUILD_SUITE-minimal-$RELEASE_NAME-$BUILD_ARCH.tar.xz"
+        sudo mkdir -p cache
+        sudo mv binary cache/bootstrap
+    fi
+fi
+
 lb config \
     --apt-indices false \
     --apt-recommends false \
@@ -68,7 +80,10 @@ lb config \
     --linux-packages none \
     --mode "$BUILD_MODE" \
     --security true \
-    --system normal
+    --system normal \
+    --cache true \
+    --cache-indices true \
+    --cache-packages true
 
 for path in $BUILD_MODE $BUILD_MODE-$BUILD_SUITE $BUILD_VARIANT; do
     if [[ -d "$ROOT_DIR/configs/$path" ]]; then
