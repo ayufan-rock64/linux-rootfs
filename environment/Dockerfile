@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:artful
 
 RUN apt-get update -y && \
     apt-get install -y python git-core gnupg flex bison gperf build-essential \
