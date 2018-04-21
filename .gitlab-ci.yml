@@ -5,31 +5,39 @@ variables:
   GITHUB_REPO: linux-rootfs
 
   VERSION: ${CI_COMMIT_TAG}
-  RELEASE_NAME: ${CI_COMMIT_TAG}
-  NAME: gitlab-ci-linux-rootfs-${CI_PIPELINE_ID}
-  BUILD_URL: $CI_PROJECT_URL/pipelines/$CI_PIPELINE_ID
+  RELEASE_NAME: "${CI_COMMIT_TAG}: gitlab-ci-linux-rootfs-${CI_PIPELINE_ID}"
+  PIPELINE_URL: $CI_PROJECT_URL/pipelines/$CI_PIPELINE_ID
 
-stages: [prepare, build, pre-release, release]
+stages: [draft, build, pre-release, release]
 
-start_release:
-  stage: prepare
+before_script:
+  - 'export CHANGES=$(git tag -l --format="%(contents)" "$CI_COMMIT_TAG")'
+  - 'export DESCRIPTION=$(echo -e "${CHANGES}\n\n${PIPELINE_URL}")'
+
+draft:
+  stage: draft
   only: [tags]
   script:
-    - 'export CHANGES=$(git tag -l --format="%(contents)" "$CI_COMMIT_TAG")'
-    - 'github-release release --tag "${VERSION}" --name "$VERSION: $NAME" --description "$(echo -e "${CHANGES}\n\n${BUILD_URL}")" --draft'
+    - github-release release --tag "${VERSION}" --name "$RELEASE_NAME" --description "$DESCRIPTION" --target "$CI_COMMIT_SHA" --draft
 
 pre-release:
   stage: pre-release
   only: [tags]
+  environment:
+    name: pre-release
+    url: https://github.com/$GITHUB_USER/$GITHUB_REPO/releases/tag/$CI_COMMIT_TAG
   script:
-    - github-release release --tag "${VERSION}" --pre-release
+    - github-release edit --tag "${VERSION}" --name "$RELEASE_NAME" --description "$DESCRIPTION" --pre-release
 
 release:
   stage: release
   only: [tags]
   when: manual
+  environment:
+    name: release
+    url: https://github.com/$GITHUB_USER/$GITHUB_REPO/releases/tag/$CI_COMMIT_TAG
   script:
-    - github-release release --tag "${VERSION}" --release
+    - github-release edit --tag "${VERSION}" --name "$RELEASE_NAME" --description "$DESCRIPTION" --pre-release
 
 .build: &build
   stage: build

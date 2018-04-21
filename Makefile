@@ -1,10 +1,10 @@
-export RELEASE_NAME ?= 0.1~dev
+export VERSION ?= 0.1~dev
 
 VARIANTS := $(patsubst configs/%,%,$(wildcard configs/*-*-*))
 
 all: \
-	$(patsubst %,%-$(RELEASE_NAME)-armhf.tar.xz,$(VARIANTS)) \
-	$(patsubst %,%-$(RELEASE_NAME)-arm64.tar.xz,$(VARIANTS))
+	$(patsubst %,%-$(VERSION)-armhf.tar.xz,$(VARIANTS)) \
+	$(patsubst %,%-$(VERSION)-arm64.tar.xz,$(VARIANTS))
 
 info:
 	@echo $(VARIANTS)
@@ -14,7 +14,7 @@ info:
 
 %.tar:
 	bash build.sh "$@" \
-		"$(shell basename "$@" -$(RELEASE_NAME)-$(BUILD_ARCH).tar)" \
+		"$(shell basename "$@" -$(VERSION)-$(BUILD_ARCH).tar)" \
 		"$(BUILD_MODE)" \
 		"$(BUILD_SUITE)" \
 		"$(BUILD_ARCH)"
@@ -22,8 +22,8 @@ info:
 %-armhf.tar.xz: BUILD_ARCH=armhf
 %-arm64.tar.xz: BUILD_ARCH=arm64
 
-$(addsuffix -armhf, $(VARIANTS)): %-armhf: %-$(RELEASE_NAME)-armhf.tar.xz
-$(addsuffix -arm64, $(VARIANTS)): %-arm64: %-$(RELEASE_NAME)-arm64.tar.xz
+$(addsuffix -armhf, $(VARIANTS)): %-armhf: %-$(VERSION)-armhf.tar.xz
+$(addsuffix -arm64, $(VARIANTS)): %-arm64: %-$(VERSION)-arm64.tar.xz
 
 ubuntu-%.tar.xz: BUILD_MODE=ubuntu
 ubuntu-xenial-%.tar.xz: BUILD_SUITE=xenial

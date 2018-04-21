@@ -21,7 +21,7 @@ node('docker && linux-build') {
       environment.inside("--privileged -u 0:0") {
         withEnv([
           "USE_CCACHE=true",
-          "RELEASE_NAME=$VERSION",
+          "VERSION=$VERSION",
           "RELEASE=$BUILD_NUMBER"
         ]) {
             stage 'Images'
