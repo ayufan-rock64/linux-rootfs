@@ -1,0 +1,63 @@
+image: ayufan/rock64-dockerfiles:x86_64
+
+variables:
+  GITHUB_USER: ayufan-rock64
+  GITHUB_REPO: linux-rootfs
+
+  VERSION: ${CI_COMMIT_TAG}
+  RELEASE_NAME: ${CI_COMMIT_TAG}
+  NAME: gitlab-ci-linux-rootfs-${CI_PIPELINE_ID}
+  BUILD_URL: $CI_PROJECT_URL/pipelines/$CI_PIPELINE_ID
+
+stages: [prepare, build, pre-release, release]
+
+start_release:
+  stage: prepare
+  only: [tags]
+  script:
+    - 'export CHANGES=$(git tag -l --format="%(contents)")'
+    - 'github-release release --tag "${VERSION}" --name "$VERSION: $NAME" --description "${CHANGES}\n\n${BUILD_URL}" --draft'
+
+pre-release:
+  stage: pre-release
+  only: [tags]
+  script:
+    - github-release release --tag "${VERSION}" --pre-release
+
+release:
+  stage: release
+  only: [tags]
+  when: manual
+  script:
+    - github-release release --tag "${VERSION}" --release
+
+.build: &build
+  stage: build
+  only: [tags]
+  script:
+    - make "$CI_JOB_NAME"
+    - github-release upload --tag "${VERSION}" --name "$(basename *.xz)" --file *.xz
+
+debian-jessie-minimal-armhf: *build
+debian-jessie-minimal-arm64: *build
+debian-jessie-openmediavault-armhf: *build
+debian-jessie-openmediavault-arm64: *build
+
+debian-stretch-minimal-armhf: *build
+debian-stretch-minimal-arm64: *build
+debian-stretch-openmediavault-armhf: *build
+debian-stretch-openmediavault-arm64: *build
+
+ubuntu-xenial-minimal-armhf: *build
+ubuntu-xenial-minimal-arm64: *build
+ubuntu-xenial-mate-armhf: *build
+ubuntu-xenial-mate-arm64: *build
+ubuntu-xenial-i3-armhf: *build
+ubuntu-xenial-i3-arm64: *build
+
+ubuntu-bionic-minimal-armhf: *build
+ubuntu-bionic-minimal-arm64: *build
+ubuntu-bionic-mate-armhf: *build
+ubuntu-bionic-mate-arm64: *build
+ubuntu-bionic-i3-armhf: *build
+ubuntu-bionic-i3-arm64: *build
