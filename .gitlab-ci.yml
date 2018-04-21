@@ -15,8 +15,8 @@ start_release:
   stage: prepare
   only: [tags]
   script:
-    - 'export CHANGES=$(git tag -l --format="%(contents)")'
-    - 'github-release release --tag "${VERSION}" --name "$VERSION: $NAME" --description "${CHANGES}\n\n${BUILD_URL}" --draft'
+    - 'export CHANGES=$(git tag -l --format="%(contents)" "$CI_COMMIT_TAG")'
+    - 'github-release release --tag "${VERSION}" --name "$VERSION: $NAME" --description "$(echo -e "${CHANGES}\n\n${BUILD_URL}")" --draft'
 
 pre-release:
   stage: pre-release
