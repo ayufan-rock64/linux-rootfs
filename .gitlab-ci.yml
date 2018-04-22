@@ -37,7 +37,7 @@ release:
     name: release
     url: https://github.com/$GITHUB_USER/$GITHUB_REPO/releases/tag/$CI_COMMIT_TAG
   script:
-    - github-release edit --tag "${VERSION}" --name "$RELEASE_NAME" --description "$DESCRIPTION" --pre-release
+    - github-release edit --tag "${VERSION}" --name "$RELEASE_NAME" --description "$DESCRIPTION"
 
 .build: &build
   stage: build
