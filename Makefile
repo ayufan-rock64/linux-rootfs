@@ -13,7 +13,7 @@ info:
 	pxz -f -3 $<
 
 %.tar:
-	bash build.sh "$@" \
+	eatmydata -- bash build.sh "$@" \
 		"$(shell basename "$@" -$(VERSION)-$(BUILD_ARCH).tar)" \
 		"$(BUILD_MODE)" \
 		"$(BUILD_SUITE)" \

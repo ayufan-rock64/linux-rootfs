@@ -45,6 +45,7 @@ release:
   script:
     - make "$CI_JOB_NAME"
     - github-release upload --tag "${VERSION}" --name "$(basename *.xz)" --file *.xz
+    - git clean -fdx
 
 ubuntu-bionic-mate-armhf: *build
 ubuntu-bionic-mate-arm64: *build
