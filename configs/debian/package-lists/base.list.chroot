@@ -8,7 +8,7 @@ sudo
 netbase
 net-tools
 ethtool
-iproute
+iproute2
 iputils-ping
 ifupdown
 dhcpcd5
