@@ -49,25 +49,21 @@ release:
 
 ubuntu-bionic-mate-armhf: *build
 ubuntu-bionic-mate-arm64: *build
-ubuntu-xenial-mate-armhf: *build
-ubuntu-xenial-mate-arm64: *build
 
-ubuntu-bionic-i3-armhf: *build
-ubuntu-bionic-i3-arm64: *build
-ubuntu-xenial-i3-armhf: *build
-ubuntu-xenial-i3-arm64: *build
+ubuntu-disco-mate-armhf: *build
+ubuntu-disco-mate-arm64: *build
 
-debian-jessie-openmediavault-armhf: *build
-debian-jessie-openmediavault-arm64: *build
 debian-stretch-openmediavault-armhf: *build
 debian-stretch-openmediavault-arm64: *build
 
-debian-jessie-minimal-armhf: *build
-debian-jessie-minimal-arm64: *build
 debian-stretch-minimal-armhf: *build
 debian-stretch-minimal-arm64: *build
 
-ubuntu-xenial-minimal-armhf: *build
-ubuntu-xenial-minimal-arm64: *build
+debian-buster-minimal-armhf: *build
+debian-buster-minimal-arm64: *build
+
 ubuntu-bionic-minimal-armhf: *build
 ubuntu-bionic-minimal-arm64: *build
+
+ubuntu-disco-minimal-armhf: *build
+ubuntu-disco-minimal-arm64: *build
