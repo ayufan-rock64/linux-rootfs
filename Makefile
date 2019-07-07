@@ -27,7 +27,7 @@ $(addsuffix -arm64, $(VARIANTS)): %-arm64: %-$(VERSION)-arm64.tar.xz
 
 ubuntu-%.tar.xz: BUILD_MODE=ubuntu
 ubuntu-bionic-%.tar.xz: BUILD_SUITE=bionic
-ubuntu-disco-%.tar.xz: BUILD_SUITE=bionic
+ubuntu-disco-%.tar.xz: BUILD_SUITE=disco
 
 debian-%.tar.xz: BUILD_MODE=debian
 debian-stretch-%.tar.xz: BUILD_SUITE=stretch
