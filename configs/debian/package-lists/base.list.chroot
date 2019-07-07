@@ -19,3 +19,5 @@ avahi-daemon
 ntp
 wireless-tools
 apt-transport-https
+gnupg2
+gpg-agent
