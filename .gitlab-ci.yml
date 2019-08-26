@@ -47,14 +47,19 @@ release:
     - github-release upload --tag "${VERSION}" --name "$(basename *.xz)" --file *.xz
     - git clean -fdx
 
-ubuntu-bionic-mate-armhf: *build
-ubuntu-bionic-mate-arm64: *build
+.build_manual: &build_manual
+  <<: *build
+  when: manual
+  allow_failure: true
 
-ubuntu-disco-mate-armhf: *build
-ubuntu-disco-mate-arm64: *build
+ubuntu-bionic-mate-armhf: *build_manual
+ubuntu-bionic-mate-arm64: *build_manual
 
-debian-stretch-openmediavault-armhf: *build
-debian-stretch-openmediavault-arm64: *build
+ubuntu-disco-mate-armhf: *build_manual
+ubuntu-disco-mate-arm64: *build_manual
+
+debian-stretch-openmediavault-armhf: *build_manual
+debian-stretch-openmediavault-arm64: *build_manual
 
 debian-stretch-minimal-armhf: *build
 debian-stretch-minimal-arm64: *build
