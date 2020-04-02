@@ -26,11 +26,9 @@ $(addsuffix -armhf, $(VARIANTS)): %-armhf: %-$(VERSION)-armhf.tar.xz
 $(addsuffix -arm64, $(VARIANTS)): %-arm64: %-$(VERSION)-arm64.tar.xz
 
 ubuntu-%.tar.xz: BUILD_MODE=ubuntu
-ubuntu-bionic-%.tar.xz: BUILD_SUITE=bionic
-ubuntu-disco-%.tar.xz: BUILD_SUITE=disco
+ubuntu-focal-%.tar.xz: BUILD_SUITE=focal
 
 debian-%.tar.xz: BUILD_MODE=debian
-debian-stretch-%.tar.xz: BUILD_SUITE=stretch
 debian-buster-%.tar.xz: BUILD_SUITE=buster
 
 .PHONY: shell		# run docker shell to build image
