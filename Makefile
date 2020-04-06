@@ -33,8 +33,6 @@ debian-buster-%.tar.xz: BUILD_SUITE=buster
 
 .PHONY: shell		# run docker shell to build image
 shell:
-	@echo Building environment...
-	@docker build -q -t rock64-rootfs:build-environment environment/
 	@echo Entering shell...
 	@docker run --rm \
 		-it \
@@ -43,4 +41,4 @@ shell:
 		-h rock64-build-env \
 		-v $(CURDIR):$(CURDIR) \
 		-w $(CURDIR) \
-		rock64-rootfs:build-environment
+		ayufan/rock64-dockerfiles:x86_64
