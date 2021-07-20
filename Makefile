@@ -30,6 +30,7 @@ ubuntu-focal-%.tar.xz: BUILD_SUITE=focal
 
 debian-%.tar.xz: BUILD_MODE=debian
 debian-buster-%.tar.xz: BUILD_SUITE=buster
+debian-bullseye-%.tar.xz: BUILD_SUITE=bullseye
 
 .PHONY: shell		# run docker shell to build image
 shell:
