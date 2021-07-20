@@ -61,5 +61,11 @@ debian-buster-minimal-arm64: *build
 debian-buster-openmediavault-armhf: *build_manual
 debian-buster-openmediavault-arm64: *build_manual
 
+debian-bullseye-minimal-armhf: *build
+debian-bullseye-minimal-arm64: *build
+
+debian-bullseye-openmediavault-armhf: *build_manual
+debian-bullseye-openmediavault-arm64: *build_manual
+
 ubuntu-focal-minimal-armhf: *build
 ubuntu-focal-minimal-arm64: *build

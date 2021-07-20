@@ -23,9 +23,9 @@ apt-get update -y
 apt-get --force-yes -y install openmediavault
 
 # install omvextras.org
-wget https://omv-extras.org/openmediavault-omvextrasorg_latest_all5.deb
-dpkg -i openmediavault-omvextrasorg_latest_all5.deb
-rm openmediavault-omvextrasorg_latest_all5.deb
+wget https://omv-extras.org/openmediavault-omvextrasorg_latest_all6.deb
+dpkg -i openmediavault-omvextrasorg_latest_all6.deb
+rm openmediavault-omvextrasorg_latest_all6.deb
 
 # remove hacks
 mv /usr/bin/newaliases.bak /usr/bin/newaliases
