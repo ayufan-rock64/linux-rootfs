@@ -10,7 +10,7 @@ info:
 	@echo $(VARIANTS)
 
 %.xz: %
-	pxz -f -3 $<
+	xz -T -0 -f -3 $<
 
 %.tar:
 	eatmydata -- bash build.sh "$@" \
