@@ -41,8 +41,15 @@ else
     exit 1
 fi
 
+SECURITY=true
+
 if [[ "$BUILD_MODE" == "debian" ]]; then
     ARCHIVE_AREAS="main contrib non-free"
+    
+    if [[ "$BUILD_SUITE" == "bullseye" ]]; then
+        # there is no security yet for bullseye
+        SECURITY=false
+    fi
 elif [[ "$BUILD_MODE" == "ubuntu" ]]; then
     ARCHIVE_AREAS="main restricted universe multiverse"
 else
@@ -67,7 +74,7 @@ lb config \
     --linux-flavours none \
     --linux-packages none \
     --mode "$BUILD_MODE" \
-    --security true \
+    --security "$SECURITY" \
     --system normal
 
 for path in $BUILD_MODE $BUILD_MODE-$BUILD_SUITE $BUILD_VARIANT; do
