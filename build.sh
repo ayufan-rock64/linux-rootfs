@@ -30,6 +30,18 @@ cleanup() {
 }
 trap cleanup EXIT
 
+failure() {
+    echo "Build failure happened:"
+    echo "> debootstrap.log:"
+    cat "$TEMP/chroot/debootstrap/debootstrap.log" || true
+
+    if [[ -n "$DEBUG" ]]; then
+        echo "> failure shell"
+        bash
+    fi
+}
+trap failure ERR
+
 pushd $TEMP
 
 if [[ "$BUILD_ARCH" == "arm64" ]]; then
