@@ -52,20 +52,4 @@ release:
   when: manual
   allow_failure: true
 
-ubuntu-focal-mate-armhf: *build_manual
-ubuntu-focal-mate-arm64: *build_manual
-
-debian-buster-minimal-armhf: *build
-debian-buster-minimal-arm64: *build
-
-debian-buster-openmediavault-armhf: *build_manual
-debian-buster-openmediavault-arm64: *build_manual
-
-debian-bullseye-minimal-armhf: *build
-debian-bullseye-minimal-arm64: *build
-
-debian-bullseye-openmediavault-armhf: *build_manual
-debian-bullseye-openmediavault-arm64: *build_manual
-
-ubuntu-focal-minimal-armhf: *build
-ubuntu-focal-minimal-arm64: *build
+debian-bookworm-minimal-arm64: *build

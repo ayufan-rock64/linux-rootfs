@@ -22,15 +22,10 @@ info:
 %-armhf.tar.xz: BUILD_ARCH=armhf
 %-arm64.tar.xz: BUILD_ARCH=arm64
 
-$(addsuffix -armhf, $(VARIANTS)): %-armhf: %-$(VERSION)-armhf.tar.xz
 $(addsuffix -arm64, $(VARIANTS)): %-arm64: %-$(VERSION)-arm64.tar.xz
 
-ubuntu-%.tar.xz: BUILD_MODE=ubuntu
-ubuntu-focal-%.tar.xz: BUILD_SUITE=focal
-
 debian-%.tar.xz: BUILD_MODE=debian
-debian-buster-%.tar.xz: BUILD_SUITE=buster
-debian-bullseye-%.tar.xz: BUILD_SUITE=bullseye
+debian-bookworm-%.tar.xz: BUILD_SUITE=bookworm
 
 .PHONY: shell		# run docker shell to build image
 shell:
