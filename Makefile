@@ -37,4 +37,4 @@ shell:
 		-h rock64-build-env \
 		-v $(CURDIR):$(CURDIR) \
 		-w $(CURDIR) \
-		ayufan/rock64-dockerfiles:x86_64
+		ayufan/rock64-dockerfiles:bookworm
