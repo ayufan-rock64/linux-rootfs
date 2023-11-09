@@ -83,6 +83,7 @@ lb config \
     --chroot-filesystem none \
     --compression none \
     --distribution "$BUILD_SUITE" \
+    --image-name rootfs-image \
     --linux-flavours none \
     --linux-packages none \
     --mode "$BUILD_MODE" \
@@ -96,6 +97,6 @@ for path in $BUILD_MODE $BUILD_MODE-$BUILD_SUITE $BUILD_VARIANT; do
 done
 
 sudo lb build
-sudo chown "$(id -u)" binary-tar.tar
+sudo chown "$(id -u)" "rootfs-image-${BUILD_ARCH}.tar.tar"
 
-mv binary-tar.tar "$BUILD_OUTPUT"
+mv "rootfs-image-${BUILD_ARCH}.tar.tar" "$BUILD_OUTPUT"
