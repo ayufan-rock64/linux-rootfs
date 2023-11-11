@@ -15,7 +15,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Configure version
-      run: echo "VERSION=$(cat VERSION).$(($RELEASE_START+$GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
+      run: echo "VERSION=$(cat VERSION)-$(($RELEASE_START+$GITHUB_RUN_NUMBER))" >> $GITHUB_ENV
     - name: Cleanup old packages
       run: rm -f *.tar.xz
     - name: Install keyring

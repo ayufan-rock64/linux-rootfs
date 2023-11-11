@@ -27,6 +27,6 @@ targets:
 		"$(word 1,$(subst -, , $@))-$(word 2,$(subst -, , $@))-$(word 3,$(subst -, , $@))" \
 		"$(word 1,$(subst -, , $@))" \
 		"$(word 2,$(subst -, , $@))" \
-		"$(word 5,$(subst -, , $(basename $@)))"
+		"$(lastword $(subst -, , $(basename $@)))"
 
 $(foreach arch,$(ARCHS),$(addsuffix -$(arch), $(VARIANTS)): %-$(arch): %-$(VERSION)-$(arch).tar.xz)
