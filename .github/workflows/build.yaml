@@ -23,38 +23,10 @@ jobs:
     - name: Build images
       run: make all
     - name: Release images
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        set -x
-
-        export RELEASE_NAME="$VERSION"
-        export RELEASE_TITLE="$VERSION"
-        export DESCRIPTION="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-
-        github-release release \
-          --tag "${RELEASE_NAME}" \
-          --name "${RELEASE_TITLE}" \
-          --user "${GITHUB_REPOSITORY%/*}" \
-          --repo "${GITHUB_REPOSITORY#*/}" \
-          --description "${DESCRIPTION}" \
-          --target "${GITHUB_SHA}" \
-          --draft
-
-        sleep 3s # allow to update release
-
-        for i in *.tar.xz; do
-          github-release upload \
-            --tag "${RELEASE_NAME}" \
-            --name "$(basename "${i}")" \
-            --user "${GITHUB_REPOSITORY%/*}" \
-            --repo "${GITHUB_REPOSITORY#*/}" \
-            --file "${i}"
-        done
-
-        github-release edit \
-          --tag "${RELEASE_NAME}" \
-          --name "${RELEASE_TITLE}" \
-          --user "${GITHUB_REPOSITORY%/*}" \
-          --repo "${GITHUB_REPOSITORY#*/}" \
-          --description "${DESCRIPTION}"
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.VERSION }}
+        name: ${{ env.VERSION }}
+        body: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        target_commitish: ${{ github.sha }}
+        files: "*.tar.xz"
