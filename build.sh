@@ -69,6 +69,16 @@ else
     exit 1
 fi
 
+HOST_ARCH="$(uname -m)"
+
+LB_ARGS=()
+if [[ "$HOST_ARCH" != "$QEMU_BUILD_ARCH" ]]; then
+    LB_ARGS+=(
+        --bootstrap-qemu-arch "$BUILD_ARCH"
+        --bootstrap-qemu-static "/usr/bin/qemu-$QEMU_BUILD_ARCH-static"
+    )
+fi
+
 lb config \
     --apt-indices false \
     --apt-recommends false \
@@ -78,8 +88,7 @@ lb config \
     --backports false \
     --binary-filesystem ext4 \
     --binary-images tar \
-    --bootstrap-qemu-arch "$BUILD_ARCH" \
-    --bootstrap-qemu-static "/usr/bin/qemu-$QEMU_BUILD_ARCH-static" \
+    "${LB_ARGS[@]}" \
     --chroot-filesystem none \
     --compression none \
     --distribution "$BUILD_SUITE" \
