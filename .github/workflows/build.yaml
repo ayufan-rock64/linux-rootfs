@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: [self-hosted, Linux, ARM64]
     container:
-      image: ayufan/rock64-dockerfiles:bookworm
+      image: ayufan/rock64-dockerfiles:trixie
       options: --privileged
     steps:
     - name: Checkout

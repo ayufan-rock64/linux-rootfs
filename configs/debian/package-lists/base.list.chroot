@@ -14,7 +14,7 @@ ifupdown
 wpasupplicant
 ssh
 avahi-daemon
-ntp
+ntpsec
 wireless-tools
 apt-transport-https
 gnupg2
